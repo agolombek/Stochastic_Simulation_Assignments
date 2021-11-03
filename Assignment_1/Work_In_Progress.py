@@ -7,3 +7,10 @@ Created on Wed Nov  3 12:42:26 2021
 
 import numpy as np
 import matplotlib.pyplot as plt
+
+
+# inside circle radius 2 might be stable
+
+def mandelbrot(z, c):
+    z = z**2 + c
+    
