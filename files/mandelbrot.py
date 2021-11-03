@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import random
 
 
-def mandelbrot(iter,s): # iter is the number of iterations, s is the number of samples
+def mandelbrot(iterations,samples): # iterations is the number of iterations, samples is the number of samples
   # Array for the points in the Mandelbrot set
   stable_real = []
   stable_imag = []
@@ -12,7 +12,7 @@ def mandelbrot(iter,s): # iter is the number of iterations, s is the number of s
   not_stable_real = []
   not_stable_imag = []
   
-  for i in range(s): 
+  for i in range(samples): 
 
     # Generating c between -2 and 2
     real_c = random.random()*6 - 3
@@ -22,7 +22,7 @@ def mandelbrot(iter,s): # iter is the number of iterations, s is the number of s
     # Initialise z
     z = 0
 
-    for i in range(iter):
+    for i in range(iterations):
       norm_squared = abs(z)
       if norm_squared > 4:
         not_stable_real.append(real_c)
@@ -36,7 +36,7 @@ def mandelbrot(iter,s): # iter is the number of iterations, s is the number of s
 
   return stable_real,stable_imag, not_stable_real, not_stable_imag
 
-stable_real, stable_imag, not_stable_real, not_stable_imag = mandelbrot(10000,100000)
+stable_real, stable_imag, not_stable_real, not_stable_imag = mandelbrot(100,100000000)
 
 plt.plot(stable_real,stable_imag,"k.")
 plt.plot(not_stable_real,not_stable_imag,"r.")
