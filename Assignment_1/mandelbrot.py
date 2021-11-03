@@ -3,7 +3,16 @@ import matplotlib.pyplot as plt
 import random
 
 
-def mandelbrot(iterations,samples): # iterations is the number of iterations, samples is the number of samples
+def mandelbrot(iterations,samples):
+    
+  '''
+  This function takes two arguments, iterations and samples.
+  Samples is the number of samples generated, iterations is the number of 
+  iterations each sample is chekced for convergence.
+  The function returns 4 arrays, the real and imaginary components of both
+  the stable and unstable samples.
+  ''' 
+  
   # Array for the points in the Mandelbrot set
   stable_real = []
   stable_imag = []
