@@ -7,10 +7,11 @@ Created on Wed Nov  3 12:42:26 2021
 
 import numpy as np
 import matplotlib.pyplot as plt
+import random
 
 
 # inside circle radius 2 might be stable
 
-def mandelbrot(z, c):
-    z = z**2 + c
+for i in range(1000):
+    print(random.random()*4-2)
     
