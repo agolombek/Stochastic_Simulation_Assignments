@@ -1,77 +1,73 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import random
+from PIL import Image, ImageDraw
+from math import log, log2
 
-
-def mandelbrot(iterations,samples):
-    
-  '''
-  This function takes two arguments, iterations and samples.
-  Samples is the number of samples generated, iterations is the number of 
-  iterations each sample is chekced for convergence.
-  The function returns 4 arrays, the real and imaginary components of both
-  the stable and unstable samples.
-  ''' 
-  
-  # Array for the points in the Mandelbrot set
-  stable_real = []
-  stable_imag = []
-
-  # Array for the points not in the Mandelbrot set
-  not_stable_real = []
-  not_stable_imag = []
-  
-  for i in range(samples): 
-
-    # Generating c between -2 and 2
-    real_c = random.uniform(-2, 0.75)
-    imag_c = random.uniform(-1.25, 1.25)
-    c = real_c + imag_c*1j
-
-    # Initialise z
+def mandelbrot(c,iterations):
     z = 0
+    n = 0
+    while abs(z) <= 2 and n < iterations:
+        z = z*z + c
+        n += 1
 
-    for i in range(iterations+1):
-        
-        norm_squared = abs(z)
-        if norm_squared > 4:
-            not_stable_real.append(real_c)
-            not_stable_imag.append(imag_c)
-            break
-        
-        elif i == iterations:
-            stable_real.append(real_c)
-            stable_imag.append(imag_c)
-            
-        else:
-            z = z**2+c
+    if n == iterations:
+        return iterations
+    
+    return n + 1 - log(log2(abs(z)))
     
 
-  return stable_real,stable_imag, not_stable_real, not_stable_imag
 
+def mandelbrot_plot(division,iterations,re_axis,im_axis,name):
+  # Plot window
+  re_ax_start = re_axis[0]
+  re_ax_end = re_axis[1]
+  im_ax_start = im_axis[0]
+  im_ax_end = im_axis[1]
 
-"""Plot Mandelbrot set"""
+  im = Image.new('RGB', (division, division), (0, 0, 0))
+  draw = ImageDraw.Draw(im)
 
-# stable_real, stable_imag, not_stable_real, not_stable_imag = mandelbrot(3000,1000000)
+  for x in range(0, division):
+      for y in range(0, division):
+          # Convert pixel coordinate to complex number
+          c = complex(re_ax_start + (x / division) * (re_ax_end - re_ax_start),
+                      im_ax_start + (y / division) * (im_ax_end - im_ax_start))
+          # Compute the number of iterations
+          m = mandelbrot(c,iterations)
+          # The color depends on the number of iterations
+          red = 52+int(log(log((m)))*255) if m < iterations else 0
+          green = 179+int(log(log((m)))*100) if m < iterations else 0
+          blue = 110+int(log(log((m)))*140) if m < iterations else 0
+          # Plot the point
+          draw.point([x, y], (red, green, blue))
 
-# plt.plot(stable_real,stable_imag,"k.")
-# plt.plot(not_stable_real,not_stable_imag,"r.")
-# plt.xlim(-2,0.75)
-# plt.ylim(-1.25,1.25)
-# plt.show()
+  im.save(name, 'PNG')
+
+"""
+Uncomment the code below to show the fractals
+"""
+
+#mandelbrot_plot(5000,1000,[-2,0.75],[-1.25,1.25],"full_fractal")
+#mandelbrot_plot(5000,1000,[-0.57,-0.4],[-0.5,-0.625],"zoom1")
+
+def mandelbrot_area(iterations,samples,re_axis,im_axis):
+
+  re_ax_start = re_axis[0]
+  re_ax_end = re_axis[1]
+  im_ax_start = im_axis[0]
+  im_ax_end = im_axis[1]
+  counter = 0
+  for i in range(1,samples):
+    c = complex(np.random.uniform(re_ax_start,re_ax_end),np.random.uniform(im_ax_start,im_ax_end))
+    m = mandelbrot(c,iterations)
+    counter = counter + 1 if m == iterations else counter
+
+  return counter/samples * (re_ax_end - re_ax_start) * (im_ax_end - im_ax_start)
 
 """Plot Area of Mandelbrot set"""
 
-sample_space = np.logspace(2, 7, 6)
-all_areas = []
+#print(mandelbrot_area(1000,1000000,[-2,0.75],[-1.25,1.25]))
 
-for samples in sample_space:
-    stable_real, stable_imag, not_stable_real, not_stable_imag = mandelbrot(2000,int(samples))
-    area = (2.75*2.5)*len(stable_real)/(len(stable_real)+len(not_stable_real))
-    all_areas.append(area)
-    print(area)
 
-plt.plot(sample_space, all_areas)
-plt.xscale('log')
-plt.show()
     
