@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import random
 from PIL import Image, ImageDraw
 from math import log, log2
+from time import time
 
 def mandelbrot(c,iterations):
     z = 0
@@ -48,8 +49,9 @@ def mandelbrot_plot(division,iterations,re_axis,im_axis,name):
 Uncomment the code below to show the fractals
 """
 
-mandelbrot_plot(5000,1000,[-2,0.75],[-1.25,1.25],"full_fractal")
-#mandelbrot_plot(5000,1000,[-0.57,-0.4],[-0.5,-0.625],"zoom1")
+# mandelbrot_plot(5000,1000,[-2,0.75],[-1.25,1.25],"full_fractal")
+# mandelbrot_plot(5000,1000,[-0.57,-0.4],[-0.5,-0.625],"zoom1")
+
 
 def mandelbrot_area(iterations,samples,re_axis,im_axis):
 
@@ -67,7 +69,9 @@ def mandelbrot_area(iterations,samples,re_axis,im_axis):
 
 """Plot Area of Mandelbrot set"""
 
-#print(mandelbrot_area(1000,1000000,[-2,0.75],[-1.25,1.25]))
+start_time = time()
+print(mandelbrot_area(1000,1000000,[-2,0.75],[-1.25,1.25]))
+end_time = time()
 
-
+print(end_time-start_time)
     
