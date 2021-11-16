@@ -6,6 +6,7 @@ from math import log, log2
 from time import time
 from numba import njit
 
+
 #@njit
 #latin between 0 and 1
 def latin(samples):
@@ -32,9 +33,13 @@ def latin2(samples):
 
 
 
+
 start_time = time()
+
 all_samples = latin(10)
 print(all_samples)
+
+
 end_time = time()
 
 for i in np.linspace(-0.75,2,11):
