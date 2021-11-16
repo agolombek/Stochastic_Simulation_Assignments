@@ -36,7 +36,7 @@ def mandelbrot_area(iterations,samples):
 """Plot Area of Mandelbrot set"""
 
 start_time = time()
-print(mandelbrot_area(100000,1000000))
+print(mandelbrot_area(10000,10000))
 end_time = time()
 
 print(end_time-start_time)
