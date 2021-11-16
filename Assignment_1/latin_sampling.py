@@ -6,36 +6,47 @@ from math import log, log2
 from time import time
 from numba import njit
 
-# @njit
-def latin(samples,sample_space):
-    all_samples = np.zeros((int(samples)+1, 2))
 
-    #defining the lenght of the cell along the x-axes
-    dx = (sample_space[0][1]-sample_space[0][0])/(samples+1)
+#@njit
+#latin between 0 and 1
+def latin(samples):
 
-    #defining the lenght of the cell along the y-axes
-    dy = (sample_space[1][1]-sample_space[1][0])/(samples+1)
+	# generating #samples number of points in the space
+	samples_vector = []
+	perm1 = np.random.permutation(samples)
+	perm2 = np.random.permutation(samples)
+	for i in range(samples):
+		samples_vector.append([((np.random.uniform()+perm1[i])/samples)*2.75-0.75,((np.random.uniform()+perm2[i])/samples)*2.5-1.25])
 
-    #printing the grid
-    x = np.arange(sample_space[0][0],sample_space[0][1],dx)
-    y = np.arange(sample_space[1][0],sample_space[1][1],dy)
-    
-    for i in range(0,y.size):
-        x_point = np.random.choice(x)
-        idx = np.where(x == x_point)
-        x = np.delete(x, idx[0][0])
-        y_sample = np.random.uniform(y[i],y[i]+dy)
-        x_sample = np.random.uniform(x_point,x_point+dx)
-        all_samples[i, 0] = x_sample
-        all_samples[i, 1] = y_sample
-        
-    return x, y, all_samples
-    
+	return samples_vector
+
+def latin2(samples):
+
+	# generating #samples number of points in the space
+	samples_vector = []
+	perm1 = np.random.permutation(samples)
+	perm2 = np.random.permutation(samples)
+	for i in range(samples):
+		samples_vector.append([(np.random.uniform(-0.75, 2)+perm1[i]*2.75)/samples,(np.random.uniform(-1.25, 1.25)+perm2[i]*2.5)/samples])
+
+	return samples_vector
+
 
 
 
 start_time = time()
-latin(10000,np.array([[0,1],[0,1]]))
+
+all_samples = latin(10)
+print(all_samples)
+
+
 end_time = time()
 
-print(end_time-start_time)
+for i in np.linspace(-0.75,2,11):
+	for j in np.linspace(-1.25,1.25,11):
+		plt.plot(i,j,"b.")
+
+for point in all_samples:
+	plt.plot(point[0], point[1],"r.")
+
+plt.show()
