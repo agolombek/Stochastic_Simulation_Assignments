@@ -66,13 +66,13 @@ def plot_values(x_values, y_values, max_std, sampling_function):
                     counter += np.random.choice(points)
                 area_bootstrapping = (2.75*2.5)*counter/samp
                 
-                S = (1-1/l)*S+(1+l)*((area_bootstrapping-A)/l)**0.5
+                S = (1-1/l)*S+(1+l)*((area_bootstrapping-A)/l)**2
                 
                 A = A + (area_bootstrapping-A)/(l+1)
                 n += 1
                 std = 1.96*np.sqrt(S/(n))
                 l += 1
-                
+            print(S)
             # append point to answer 
             answer[Bbbboot,0] = int(it)
             answer[Bbbboot,1] = int(samp)
@@ -91,7 +91,7 @@ y_values = np.logspace(3, 5, 10)
 
 
 start_time = time()          
-iterations, samples, area, bootstrap_it = plot_values(x_values, y_values, 1e-4, random_sampling)           
+iterations, samples, area, bootstrap_it = plot_values(x_values, y_values, 1e-2, random_sampling)           
 end_time = time()
 
 print(end_time-start_time)   
