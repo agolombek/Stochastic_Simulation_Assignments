@@ -58,7 +58,7 @@ def plot_values(x_values, y_values, max_std, sampling_function):
             n = 0
             std = 1
             l = 1
-            while std > max_std:
+            while std > max_std or l < 100:
                 
                 # randomly picking samp points with replacement
                 counter = 0
