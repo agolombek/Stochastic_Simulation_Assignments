@@ -22,14 +22,14 @@ def latin(samples,sample_space):
 	
 	for i in range(0,len(y)):
 		x_point = np.random.choice(x)
-        idx = np.where(x == x_point)
-        x = np.delete(x, idx)
+		x = np.delete(x, np.where(x == x_point))
 		y_sample = np.random.uniform(y[i],y[i]+dy)
 		x_sample = np.random.uniform(x_point,x_point+dx)
 		all_samples[i, 0] = x_sample
 		all_samples[i, 1] = y_sample
 		
 	return all_samples
+	
 
 
 
