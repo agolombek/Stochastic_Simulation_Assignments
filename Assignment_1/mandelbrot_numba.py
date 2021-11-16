@@ -17,27 +17,26 @@ def mandelbrot2(c,iterations):
         n += 1
 
     if n == iterations:
-        return True
+        return 1
     else:
-        return False
+        return 0
     
 
 @njit
 def mandelbrot_area(iterations,samples):
 
   counter = 0
-  for i in range(1,samples):
+  for i in range(samples):
     c = complex(np.random.uniform(-2,0.75),np.random.uniform(-1.25,1.25))
     m = mandelbrot2(c,iterations)
-    if m == True:
-        counter += 1
+    counter += m
     
-  return abs(2.75 * 2.5 * counter/samples - 1.506484)
+  return abs(2.75 * 2.5 * counter/samples - 1.506484193)
 
 """Plot Area of Mandelbrot set"""
 
 start_time = time()
-print(mandelbrot_area(100000,10000000))
+print(mandelbrot_area(100000,1000000))
 end_time = time()
 
 print(end_time-start_time)
