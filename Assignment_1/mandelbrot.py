@@ -65,7 +65,7 @@ def mandelbrot_area(iterations,samples,re_axis,im_axis):
     m = mandelbrot(c,iterations)
     counter = counter + 1 if m == iterations else counter
 
-  return counter/samples * (re_ax_end - re_ax_start) * (im_ax_end - im_ax_start)
+  return abs(counter/samples * (re_ax_end - re_ax_start) * (im_ax_end - im_ax_start) - 1.506484)
 
 """Plot Area of Mandelbrot set"""
 

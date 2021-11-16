@@ -32,12 +32,12 @@ def mandelbrot_area(iterations,samples):
     if m == True:
         counter += 1
     
-  return 2.75 * 2.5 * counter/samples
+  return abs(2.75 * 2.5 * counter/samples - 1.506484)
 
 """Plot Area of Mandelbrot set"""
 
 start_time = time()
-print(mandelbrot_area(1000,1000000))
+print(mandelbrot_area(100000,10000000))
 end_time = time()
 
 print(end_time-start_time)
@@ -64,21 +64,21 @@ def plot_values(start_it, stop_it, start_samp, stop_samp, div):
     return iterations, samples, area
             
 
-start_time = time()          
-iterations, samples, area = plot_values(100, 1000, 10000, 1000000, 25)           
-end_time = time()
+# start_time = time()          
+# iterations, samples, area = plot_values(100, 1000, 10000, 1000000, 25)           
+# end_time = time()
 
-print(end_time-start_time)   
+# print(end_time-start_time)   
     
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
+# fig = plt.figure()
+# ax = fig.add_subplot(111, projection='3d')
 
-ax.plot_trisurf(iterations,samples, area, linewidth=0, antialiased=True,cmap=cm.jet)
-ax.xaxis.set_major_locator(MaxNLocator(5))
-ax.yaxis.set_major_locator(MaxNLocator(6))
-ax.zaxis.set_major_locator(MaxNLocator(5))
-ax.tick_params(labelsize=16)
-ax.set_xlabel(r'$Iterations$ ', fontsize=20, rotation=150)
-ax.set_ylabel(r'$Samples$', fontsize=20)
-ax.set_zlabel(r'$Area$', fontsize=20, rotation=60)
+# ax.plot_trisurf(iterations,samples, area, linewidth=0, antialiased=True,cmap=cm.jet)
+# ax.xaxis.set_major_locator(MaxNLocator(5))
+# ax.yaxis.set_major_locator(MaxNLocator(6))
+# ax.zaxis.set_major_locator(MaxNLocator(5))
+# ax.tick_params(labelsize=16)
+# ax.set_xlabel(r'$Iterations$ ', fontsize=20, rotation=150)
+# ax.set_ylabel(r'$Samples$', fontsize=20)
+# ax.set_zlabel(r'$Area$', fontsize=20, rotation=60)
 
