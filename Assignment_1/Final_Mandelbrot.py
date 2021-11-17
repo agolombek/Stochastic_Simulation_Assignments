@@ -105,55 +105,81 @@ def plot_values(x_values, y_values, max_std, sampling_function):
     
     The argument y_values represents the sample sizes to be tested. Together
     with x_vbalues it forms the grid over which all values for which the 
-    Mandelbrot set area is estimated. 
+    Mandelbrot set area is estimated. x_values and y_values must be arrays of
+    equal size.
     
     max_std represents the maximum standrad deviation allowed for each point 
-    in the grid. It thus represents the level of confidence in the result.
+    in the grid. It thus represents the level of confidence in the result for
+    each point in the grid.
+    
+    The sampling_function argument needs to be a function which return the 
+    sample space in the form of n by 2 matrix with n points containing the x
+    and y coordinate of each point.
+    --------------------------------------------------------------------------
+    The function returns the matrix answer with 4 columns. The first contains 
+    the number of iterations each point in the sample was chekced for 
+    divergence. The second contains the size of the sample, hence the number 
+    of sample points. The third column contains the area estimnate. The fourth
+    column contains the number of iterations of the bootstrap method which
+    were preformed to lower the standard deviation below max_std.
     """
-    steps = x_values.size
-    answer = np.zeros((steps**2, 4))
+    # create a matrix with space for all grid_points and 4 columns
+    answer = np.zeros((x_values.size**2, 4))
+    # grid_point keeps track of the solution currently being investigated
     grid_point = 0
-    for it in x_values:
+    # iterate through the number of iterations each point in sample is checked
+    # for convergence
+    for x in x_values:
+        # iterate through all sample sizes
         for samp in y_values:
-            #generating the sample with this value of it and samp
+            # generating the sample using the sampling function
             sample = sampling_function(int(samp))
-            #testing all the points and putting them inside an array
-            # 1 if the point is inside, 0 otherwise
-            points = mandelbrot(sample, int(it), int(samp))
+            # test all the points in the sample x times for convergence
+            points = mandelbrot(sample, int(x), int(samp))
+            # returns array of 0s and 1s. 1 represents the point being in the 
+            # mandelbrot set, while 0 represents divergence. 
+            # Area estimate is thus given by sum of this array multiplied by 
+            # the area the sample was taken from.
             A = np.mean(points)*(2.75*2.5)
+            # Initialize values for bootstrapping method
             S = 0
             n = 0
             std = 1
             l = 1
+            # preform bootstrapping method at least 100 times and until the 
+            # standard deviation is lower than max_std.
             while std > max_std or l < 100:
                 
-                # randomly picking samp points with replacement
+                #preform bootstrapping
                 counter = 0
                 for i in range(int(samp)):
                     counter += np.random.choice(points)
+                    
                 area_bootstrapping = (2.75*2.5)*counter/samp
+                # Update Area and standrad deviation
                 l += 1
                 S = ((l-2)/(l-1))*S+(area_bootstrapping-A)**2/l
                 A = (area_bootstrapping+(l-1)*A)/l
                 n += 1
                 std = 1.96*np.sqrt(S/(n))
 
-            # append point to answer 
-            answer[grid_point,0] = int(it)
+            # Save location on grid, Area estimate and necessray bootstrapping
+            # iterations in answer matrix
+            answer[grid_point,0] = int(x)
             answer[grid_point,1] = int(samp)
             answer[grid_point,2] = A
             answer[grid_point,3] = l
             grid_point += 1
     
-    return answer, sample
+    return answer
 
 ########################## CALLING AREA FUNCTION #############################
 
 start_time = time()  
-x_values = np.logspace(4, 6, 10)
-y_values = np.logspace(4, 6, 10)
+x_values = np.logspace(4, 5, 10)
+y_values = np.logspace(4, 5, 10)
         
-answer, sample = plot_values(x_values, y_values, 1e-3, latin_hypercube_sampling)
+answer = plot_values(x_values, y_values, 1e-3, latin_hypercube_sampling)
 
 iterations = answer[:,0]
 samples = answer[:,1]
