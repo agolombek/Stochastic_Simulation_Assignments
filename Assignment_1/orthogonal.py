@@ -4,36 +4,49 @@ import random
 from PIL import Image, ImageDraw
 from math import log, log2
 from time import time
+from numba import njit
 
 
+@njit
+def orthogonal(major):
+	samples = major * major
+	vec_x = np.zeros((samples))
+	vec_y = np.zeros((samples))
 
-def latin(samples,sample_space):
-	all_samples = np.zeros((int(samples)+1, 2))
+	xlist = np.zeros((major,major))
+	ylist = np.zeros((major,major))
+	samples_size = major*major
+	m = 0
+	for i in range(major):
 
-	#defining the lenght of the cell along the x-axes
-	dx = (sample_space[0][1]-sample_space[0][0])/(samples+1)
+		for j in range(major):
 
-	#defining the lenght of the cell along the y-axes
-	dy = (sample_space[1][1]-sample_space[1][0])/(samples+1)
+			m += 1
+			xlist[i][j] = ylist[i][j] = m
 
-	#printing the grid
-	x = np.arange(sample_space[0][0],sample_space[0][1],dx)
-	y = np.arange(sample_space[1][0],sample_space[1][1],dy)
-	
-	for i in range(0,len(y)):
-		x_point = np.random.choice(x)
-		x = np.delete(x, np.where(x == x_point))
-		y_sample = np.random.uniform(y[i],y[i]+dy)
-		x_sample = np.random.uniform(x_point,x_point+dx)
-		all_samples[i, 0] = x_sample
-		all_samples[i, 1] = y_sample
-		
-	return all_samples
+	for k in range(1):
 
+		for i in range(major):
+			xlist[i] = np.random.permutation(xlist[i])
+			ylist[i] = np.random.permutation(ylist[i])
 
+	for i in range(major):
 
-start_time = time()
-print(latin(10000.,[[0,1],[0,1]]))
-end_time = time()
+		for j in range(major):
+			scale = 1
+			x = -2.0 + scale * xlist[i][j] + np.random.random()
+			y = -2.0 + scale * ylist[i][j] + np.random.random()	
+			vec_x[i*j] = x
+			vec_y[i*j] = y
+	return vec_x,vec_y
 
-print(end_time-start_time)
+x,y = orthogonal(10)
+
+for i in range(100):
+
+	for j in range(100):
+
+		plt.plot(x[i],y[j],"r.")
+
+plt.show()
+
