@@ -32,33 +32,32 @@ def latin_numba(samples):
 
 
 
-start_time = time()
-all_samples = latin(1000000)
-end_time = time()
-print(end_time - start_time)
+# start_time = time()
+# all_samples = latin(1000)
+# end_time = time()
+# print(end_time - start_time)
 
 
 # for i in np.linspace(-0.75,2,101):
 #     for j in np.linspace(-1.25,1.25,101):
 #         plt.plot(i,j,"b.")
-
 # for point in all_samples:
 #     plt.plot(point[0], point[1],"r.")
 
 # plt.show()
 
 start_time = time()
-all_samples = latin_numba(1000000)
+all_samples = latin_numba(50)
 end_time = time()
 print(end_time-start_time)
 
 
-# for i in np.linspace(-0.75,2,101):
-#     for j in np.linspace(-1.25,1.25,101):
-#         plt.plot(i,j,"b.")
+for i in np.linspace(-0.75,2,51):
+    for j in np.linspace(-1.25,1.25,51):
+        plt.plot(i,j,"b.")
 
-# for [x, y] in all_samples:
-#     plt.plot(x, y,"r.")
+for [x, y] in all_samples:
+    plt.plot(x, y,"r.")
 
-# plt.show()
+plt.show()
 
