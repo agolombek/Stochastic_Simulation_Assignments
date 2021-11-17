@@ -18,10 +18,12 @@ from mandelbrot_functions import *
 
 ########################## CALLING AREA FUNCTION #############################
 start_time = time() 
-sample_range = np.array([100, 1000])
-x_values = np.logspace(2, 3, 5)
+sample_range = np.array([100000, 1000000, 10000000])
+x_values = np.logspace(2, 5, 10)
 
 for sample_size in sample_range:
+    
+    fig, ax = plt.subplots()
     
     ##################### Randome sampling ##################################
     title = str(sample_size) + ' Samples'
@@ -30,27 +32,24 @@ for sample_size in sample_range:
     iterations = answer[:,0]
     area = answer[:,1] 
     error = area - 1.506484193
-    plt.plot(iterations, error, label='Random sampling') 
+    ax.plot(iterations, error, label='Random sampling') 
     
     #################### Hypercube sampling ##################################
-    title = str(sample_size) + 'samples'
         
     answer = Mandelbrot_constant_samplesize(x_values, sample_size, 1e-3, latin_hypercube_sampling)
     iterations = answer[:,0]
     area = answer[:,1]
     error = area - 1.506484193
-    plt.plot(iterations, error, label='Hypercube sampling')
+    ax.plot(iterations, error, label='Hypercube sampling')
     
     # Finish Plot
-    plt.grid()
-    plt.xscale('log')
-    plt.xlabel('Iterations', fontsize=18)
-    plt.ylabel('Error', fontsize=18)
-    plt.xticks(fontsize=18)
-    plt.yticks(fontsize=18)
-    plt.legend(fontsize=18)
-    plt.title(title, fontsize=22)
-    plt.savefig(title)
+    ax.grid(axis='both')
+    ax.set_xscale('log')
+    ax.set_xlabel('Iterations')
+    ax.set_ylabel('Error')
+    ax.legend()
+    ax.set_title(title)
+    plt.savefig(title, dpi=200, format='png')
     
 end_time = time()
 
