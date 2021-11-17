@@ -87,7 +87,7 @@ def latin_hypercube_sampling(samp_size):
     perm1 = np.random.permutation(samp_size)
     perm2 = np.random.permutation(samp_size)
     for i in range(samp_size):
-        sample_space[i, 0] = ((np.random.random()+perm1[i])/samp_size)*2.75-0.75
+        sample_space[i, 0] = ((np.random.random()+perm1[i])/samp_size)*2.75-2
         sample_space[i, 1] = ((np.random.random()+perm2[i])/samp_size)*2.5-1.25
     return sample_space
 
@@ -113,7 +113,6 @@ def plot_values(x_values, y_values, max_std, sampling_function):
     steps = x_values.size
     answer = np.zeros((steps**2, 4))
     grid_point = 0
-    # sam = sampling_function(y_values[0])
     for it in x_values:
         for samp in y_values:
             #generating the sample with this value of it and samp
@@ -146,49 +145,39 @@ def plot_values(x_values, y_values, max_std, sampling_function):
             answer[grid_point,3] = l
             grid_point += 1
     
-    return answer
-
-x_values = np.logspace(3, 5, 5)
-y_values = np.logspace(3, 5, 5)
-answer,all_samples = plot_values(x_values, y_values, 1e-3, latin_hypercube_sampling)
-
-for [x, y] in all_samples:
-    plt.plot(x, y,"r.")
-
-plt.show()
+    return answer, sample
 
 ########################## CALLING AREA FUNCTION #############################
 
-# start_time = time()  
-     
-# x_values = np.logspace(4, 5, 10)
-# y_values = np.logspace(4, 5, 10)
+start_time = time()  
+x_values = np.logspace(4, 6, 10)
+y_values = np.logspace(4, 6, 10)
         
-# answer = plot_values(x_values, y_values, 1e-3, latin_hypercube_sampling) 
+answer, sample = plot_values(x_values, y_values, 1e-3, latin_hypercube_sampling)
 
-# iterations = answer[:,0]
-# samples = answer[:,1]
-# area = answer[:,2]
-# bootstrap_it = answer[:,3]
+iterations = answer[:,0]
+samples = answer[:,1]
+area = answer[:,2]
+bootstrap_it = answer[:,3]
          
-# end_time = time()
+end_time = time()
 
-# print('The runtime was', (end_time-start_time)/(60*60), 'hours')   
+print('The runtime was', (end_time-start_time)/(60*60), 'hours')   
 
-# ############################# 3D PLOTTING ###################################
+############################# 3D PLOTTING ###################################
 
-# fig = plt.figure()
-# ax = fig.add_subplot(111, projection='3d')
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
 
-# ax.plot_trisurf(iterations,samples, area, linewidth=0, antialiased=True,cmap=cm.jet)
-# ax.xaxis.set_major_locator(MaxNLocator(5))
-# ax.yaxis.set_major_locator(MaxNLocator(6))
-# ax.zaxis.set_major_locator(MaxNLocator(5))
-# ax.tick_params(labelsize=16)
-# ax.set_xlabel(r'$Iterations$ ', fontsize=20, rotation=150)
-# ax.set_ylabel(r'$Samples$', fontsize=20)
-# ax.set_zlabel(r'$Area$', fontsize=20, rotation=60)
-# plt.show()
+ax.plot_trisurf(iterations,samples, area, linewidth=0, antialiased=True,cmap=cm.jet)
+ax.xaxis.set_major_locator(MaxNLocator(5))
+ax.yaxis.set_major_locator(MaxNLocator(6))
+ax.zaxis.set_major_locator(MaxNLocator(5))
+ax.tick_params(labelsize=16)
+ax.set_xlabel(r'$Iterations$ ', fontsize=20, rotation=150)
+ax.set_ylabel(r'$Samples$', fontsize=20)
+ax.set_zlabel(r'$Area$', fontsize=20, rotation=60)
+plt.show()
 
 
 

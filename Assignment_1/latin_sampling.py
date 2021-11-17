@@ -47,7 +47,7 @@ def latin_numba(samples):
 # plt.show()
 
 start_time = time()
-all_samples = latin_numba(50)
+all_samples = latin_numba(1000)
 end_time = time()
 print(end_time-start_time)
 
