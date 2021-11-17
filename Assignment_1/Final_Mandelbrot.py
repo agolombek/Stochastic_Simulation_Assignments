@@ -72,7 +72,7 @@ def plot_values(x_values, y_values, max_std, sampling_function):
                 n += 1
                 std = 1.96*np.sqrt(S/(n))
                 l += 1
-            print(S)
+
             # append point to answer 
             answer[Bbbboot,0] = int(it)
             answer[Bbbboot,1] = int(samp)
@@ -86,8 +86,8 @@ def plot_values(x_values, y_values, max_std, sampling_function):
     bootstrap_it = answer[:,3]
     return iterations, samples, area, bootstrap_it
             
-x_values = np.logspace(3, 5, 10)
-y_values = np.logspace(3, 5, 10)
+x_values = np.logspace(4, 5, 3)
+y_values = np.logspace(4, 5, 3)
 
 
 start_time = time()          
