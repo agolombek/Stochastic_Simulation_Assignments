@@ -91,6 +91,30 @@ def latin_hypercube_sampling(samp_size):
         sample_space[i, 1] = ((np.random.random()+perm2[i])/samp_size)*2.5-1.25
     return sample_space
 
+def orthogonal_sampling(major):
+    
+    samples_space = np.zeros((major*major,2))
+    col1 = np.array([])
+    col2 = np.zeros((major*major))
+    #col1,col2 = orthogonal_array(major)
+    # devo cambiare gli elementi a gruppi di #major
+    for i in range(1,major+1):
+        col1 = np.append(col1,np.random.permutation([(i-1)*major+j for j in range(1,major+1)]))
+
+    # changing the elements of the second column
+    for j in range(major):
+        for i in range(major):
+            col2[i+major*j]=i+1
+    for i in range(1,major+1):
+        change = np.random.permutation([(i-1)*major+j for j in range(1,major+1)])
+        for j in range(major):
+            col2[i-1+j*major] = change[j]
+    for i in range(major*major):
+        sample_space[i,0] = ((np.random.random()+col1[i]-1)/major**2)*2.75-2
+        sample_space[i,1] = ((np.random.random()+col2[i]-1)/major**2)*2.5-1.25
+
+    return sample_space
+
 
 ################# ITERATIVE MANDELBROT AREA FUNCTION #########################
 
