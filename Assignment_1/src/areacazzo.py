@@ -9,8 +9,8 @@ from matplotlib.ticker import MaxNLocator
 from matplotlib import cm
 from mandelbrot_functions import *
 
-
-def Mandelbrot_Area_2(x_values, y_values, max_std):
+@njit
+def Mandelbrot_Area_2(x_values, samples, max_std):
     """
     This functions estimates the area of the mandelbrot set over a grid of 
     varying iterations and sample sizes, given a ceratin sampling function.
@@ -46,7 +46,7 @@ def Mandelbrot_Area_2(x_values, y_values, max_std):
     # for convergence
     for x in x_values:
         # iterate through all sample sizes
-        for sample in y_values:
+        for sample in samples:
             samp = int(sample.size/2)
             # test all the points in the sample x times for convergence
             # generating the sample using the sampling function
@@ -93,34 +93,37 @@ def Mandelbrot_Area_2(x_values, y_values, max_std):
 
 start_time = time() 
 x_values = np.logspace(2, 5, 3) 
-sample_range_sqrt = [100,200,300]
-sample_range = [100,200,300]
-ortho = sampling(sample_range_sqrt,orthogonal_sampling)
-latin = sampling(sample_range,latin_hypercube_sampling)
-random = sampling(sample_range,random_sampling)
+sample_range_sqrt = np.array([100,200,300])
+sample_range = np.array([100,200,300])
+
+ortho = sampling_numba(sample_range_sqrt,orthogonal_sampling)
+print(ortho)
+
+# latin = sampling(sample_range,latin_hypercube_sampling)
+# random = sampling(sample_range,random_sampling)
         
-answer = Mandelbrot_Area_2(x_values, ortho, 1e-2)
+# answer = Mandelbrot_Area_2(x_values, ortho, 1e-2)
 
-iterations = answer[:,0]
-samples = answer[:,1]
-area = answer[:,2]
-bootstrap_it = answer[:,3]
+# iterations = answer[:,0]
+# samples = answer[:,1]
+# area = answer[:,2]
+# bootstrap_it = answer[:,3]
          
-end_time = time()
+# end_time = time()
 
-print('The runtime was', (end_time-start_time)/(60*60), 'hours')   
+# print('The runtime was', (end_time-start_time)/(60*60), 'hours')   
 
-############################# 3D PLOTTING ###################################
+# ############################# 3D PLOTTING ###################################
 
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
+# fig = plt.figure()
+# ax = fig.add_subplot(111, projection='3d')
 
-ax.plot_trisurf(np.log10(iterations),np.log10(samples), np.absolute(area-1.506484), linewidth=0, antialiased=True,cmap=cm.jet)
-ax.xaxis.set_major_locator(MaxNLocator(5))
-ax.yaxis.set_major_locator(MaxNLocator(6))
-ax.zaxis.set_major_locator(MaxNLocator(5))
-ax.tick_params(labelsize=16)
-ax.set_xlabel(r'$Iterations$ ', fontsize=20, rotation=150)
-ax.set_ylabel(r'$Samples$', fontsize=20)
-ax.set_zlabel(r'$|A_{i,s} - A_M|$', fontsize=20, rotation=60)
-plt.show()
+# ax.plot_trisurf(np.log10(iterations),np.log10(samples), np.absolute(area-1.506484), linewidth=0, antialiased=True,cmap=cm.jet)
+# ax.xaxis.set_major_locator(MaxNLocator(5))
+# ax.yaxis.set_major_locator(MaxNLocator(6))
+# ax.zaxis.set_major_locator(MaxNLocator(5))
+# ax.tick_params(labelsize=16)
+# ax.set_xlabel(r'$Iterations$ ', fontsize=20, rotation=150)
+# ax.set_ylabel(r'$Samples$', fontsize=20)
+# ax.set_zlabel(r'$|A_{i,s} - A_M|$', fontsize=20, rotation=60)
+# plt.show()
