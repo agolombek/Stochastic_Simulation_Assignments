@@ -210,6 +210,7 @@ def Mandelbrot_Area(x_values, y_values, max_std, sampling_function):
                 area_bootstrapping = (2.75*2.5)*counter/samp
                 # Update Area and standrad deviation
                 l += 1
+                print(l)
                 S = ((l-2)/(l-1))*S+(area_bootstrapping-A)**2/l
                 A = (area_bootstrapping+(l-1)*A)/l
                 n += 1
