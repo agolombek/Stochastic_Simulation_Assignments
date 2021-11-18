@@ -103,7 +103,7 @@ def orthogonal_sampling(major):
     to be tested, containing the x and y values in colum 1 and 2 respectively.  
     """
     #initialising the final array
-    samples_space = np.zeros((major*major,2))
+    sample_space = np.zeros((major*major,2))
 
     #x values of the points
     col1 = np.array([])
