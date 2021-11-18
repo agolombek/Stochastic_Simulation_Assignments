@@ -19,8 +19,8 @@ from mandelbrot_functions import *
 ########################## CALLING AREA FUNCTION #############################
 start_time = time() 
 # using the sqrt because we need to use that for the orthogonal sampling
-sample_range_sqrt = np.logspace(1.5,2.5,2)
-x_values = np.logspace(2, 5, 20)
+sample_range_sqrt = np.logspace(0.5,1,2)
+x_values = np.logspace(1, 2, 20)
 
 for sample_size_sqrt in sample_range_sqrt:
 
