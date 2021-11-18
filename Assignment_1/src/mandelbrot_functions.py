@@ -90,7 +90,7 @@ def latin_hypercube_sampling(samp_size):
         sample_space[i, 0] = ((np.random.random()+perm1[i])/samp_size)*2.75-2
         sample_space[i, 1] = ((np.random.random()+perm2[i])/samp_size)*2.5-1.25
     return sample_space
-
+@njit
 def orthogonal_sampling(major):
     """
     This function provides sample points for half open interval 

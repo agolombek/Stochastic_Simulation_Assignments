@@ -18,30 +18,41 @@ from mandelbrot_functions import *
 
 ########################## CALLING AREA FUNCTION #############################
 start_time = time() 
-sample_range = np.array([100000, 1000000, 10000000])
-x_values = np.logspace(2, 5, 10)
+# using the sqrt because we need to use that for the orthogonal sampling
+sample_range_sqrt = np.logspace(1.5,2.5,2)
+x_values = np.logspace(2, 5, 20)
 
-for sample_size in sample_range:
-    
+for sample_size_sqrt in sample_range_sqrt:
+
+    sample_size = sample_size_sqrt ** 2 
+    print(sample_size, sample_size_sqrt)
     fig, ax = plt.subplots()
     
     ##################### Randome sampling ##################################
-    title = str(sample_size) + ' Samples'
+    title = str(int(sample_size)) + ' Samples'
     
     answer = Mandelbrot_constant_samplesize(x_values, sample_size, 1e-3, random_sampling)
     iterations = answer[:,0]
     area = answer[:,1] 
-    error = area - 1.506484193
+    error = abs(area - 1.506484193)
     ax.plot(iterations, error, label='Random sampling') 
     
-    #################### Hypercube sampling ##################################
+    # #################### Hypercube sampling ##################################
         
     answer = Mandelbrot_constant_samplesize(x_values, sample_size, 1e-3, latin_hypercube_sampling)
     iterations = answer[:,0]
     area = answer[:,1]
-    error = area - 1.506484193
+    error = abs(area - 1.506484193)
     ax.plot(iterations, error, label='Hypercube sampling')
-    
+
+    #################### Orthogonal sampling ##################################
+
+    # answer = Mandelbrot_constant_samplesize(x_values, sample_size_sqrt, 1e-3, orthogonal_sampling)
+    # iterations = answer[:,0]
+    # area = answer[:,1]
+    # error = area - 1.506484193
+    # ax.plot(iterations, error, label='Orthogonal sampling')
+
     # Finish Plot
     ax.grid(axis='both')
     ax.set_xscale('log')
@@ -49,7 +60,7 @@ for sample_size in sample_range:
     ax.set_ylabel('Error')
     ax.legend()
     ax.set_title(title)
-    plt.savefig(title, dpi=200, format='png')
+    plt.show()
     
 end_time = time()
 
