@@ -141,9 +141,8 @@ def orthogonal_sampling(major):
 def sampling(sample_size,sampling_function):
     sampling = []
     for size in sample_size:
-        sampling.append(sampling_function(size))
+        sampling.append(np.array(sampling_function(size)))
     return np.array(sampling,dtype=object)
-
 
 
 @njit
