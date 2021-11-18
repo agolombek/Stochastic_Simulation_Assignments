@@ -93,7 +93,7 @@ def orthogonal_sampling_numba2(major):
         sample_space[i,0] = ((np.random.random()+col1[i]-1)/major**2)*2.75-2
         sample_space[i,1] = ((np.random.random()+col2[i]-1)/major**2)*2.5-1.25
 
-    return sample_space
+    return col1, col2, sample_space
 
 @njit
 def orthogonal_sampling_numba(major):
@@ -137,24 +137,3 @@ def orthogonal_sampling_numba(major):
         sample_space[i,1] = ((np.random.random()+col2[i]-1)/major**2)*2.5-1.25
 
     return sample_space
-
-# major = 10000
-
-# time3 = time()
-# orthogonal_sampling_numba(major)
-# time4 = time()
-# print(time4-time3)
-
-for sample_size_sqrt in [10,100,300,10000]:
-    print(orthogonal_sampling_numba2(int(sample_size_sqrt)))
-
-# time5 = time()
-# orthogonal_sampling_numba2(major)
-# time6 = time()
-# print(time6-time5)
-
-
-# time3 = time()
-# orthogonal_sampling_numba(major)
-# time4 = time()
-# print(time4-time3)
