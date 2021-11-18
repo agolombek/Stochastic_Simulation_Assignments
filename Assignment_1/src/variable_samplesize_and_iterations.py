@@ -26,7 +26,7 @@ ortho = sampling(sample_range_sqrt,orthogonal_sampling)
 latin = sampling(sample_range,latin_hypercube_sampling)
 random = sampling(sample_range,random_sampling)
         
-answer = Mandelbrot_Area(x_values, x_values, 1e-3,random_sampling)
+answer = Mandelbrot_Area(x_values, x_values, 1e-3,orthogonal_sampling)
 
 iterations = answer[:,0]
 samples = answer[:,1]

@@ -21,8 +21,8 @@ start_time = time()
 # using the sqrt because we need to use that for the orthogonal sampling
 
 x_values = np.logspace(2, 5, 20)
-sample_range_sqrt = [100,200,300,400,500,1000]
-sample_range = [100**2,200**2,300**2,400**2,500**2,1000**2]
+sample_range_sqrt = [100,200,300,400]
+sample_range = [100**2,200**2,300**2,400**2]
 ortho = sampling(sample_range_sqrt,orthogonal_sampling)
 latin = sampling(sample_range,latin_hypercube_sampling)
 random = sampling(sample_range,random_sampling)
@@ -37,7 +37,7 @@ for i in range(len(sample_range)):
     answer = Mandelbrot_constant_samplesize(x_values, random[i], 1e-3)
     iterations = answer[:,0]
     area = answer[:,1] 
-    error = abs(area - 1.506484193)
+    error = abs(area - area[-1])
     ax.plot(iterations, error, label='Random sampling') 
     
     # #################### Hypercube sampling ##################################
@@ -45,7 +45,7 @@ for i in range(len(sample_range)):
     answer = Mandelbrot_constant_samplesize(x_values, latin[i], 1e-3)
     iterations = answer[:,0]
     area = answer[:,1]
-    error = abs(area - 1.506484193)
+    error = abs(area - area[-1])
     ax.plot(iterations, error, label='Hypercube sampling')
 
     #################### Orthogonal sampling ##################################
@@ -53,7 +53,7 @@ for i in range(len(sample_range)):
     answer = Mandelbrot_constant_samplesize(x_values, ortho[i], 1e-3)
     iterations = answer[:,0]
     area = answer[:,1]
-    error = abs(area - 1.506484193)
+    error = abs(area - area[-1])
     ax.plot(iterations, error, label='Orthogonal sampling')
 
     # # Finish Plot

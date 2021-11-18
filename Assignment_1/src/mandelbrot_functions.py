@@ -225,17 +225,6 @@ def Mandelbrot_Area(x_values, y_values, max_std, sampling_function):
     
     return answer
 
-# start_time = time() 
-# x_values = np.logspace(2, 5, 3) 
-# sample_range_sqrt = [100,200,300,400,500,1000]
-# sample_range = [100,200,300]
-# ortho = sampling(sample_range_sqrt,orthogonal_sampling)
-# latin = sampling(sample_range,latin_hypercube_sampling)
-# random = sampling(sample_range,random_sampling)
-        
-# answer = Mandelbrot_Area(x_values, [100,200,300], 1e-3,random_sampling)
-# print(answer)
-
 
 @njit
 def Mandelbrot_constant_samplesize(x_values, sample, max_std):
