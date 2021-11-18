@@ -90,12 +90,12 @@ def latin_hypercube_sampling(samp_size):
         sample_space[i, 0] = ((np.random.random()+perm1[i])/samp_size)*2.75-2
         sample_space[i, 1] = ((np.random.random()+perm2[i])/samp_size)*2.5-1.25
     return sample_space
+
 @njit
 def orthogonal_sampling(major):
     """
     This function provides sample points for half open interval 
-    x = [-.075, 2), y = [-1.25, 1.25) using the latin hypercube sampling 
-    method.
+    x = [-.075, 2), y = [-1.25, 1.25) using orthogonal sampling.
     --------------------------------------------------------------------------
     The function argument is the square root of number of points to be sampled.
     --------------------------------------------------------------------------
@@ -106,9 +106,14 @@ def orthogonal_sampling(major):
     sample_space = np.zeros((major*major,2))
 
     #x values of the points
-    col1 = np.array([])
+    col1 = np.zeros((major*major))
     for i in range(1,major+1):
-        col1 = np.append(col1,np.random.permutation([(i-1)*major+j for j in range(1,major+1)]))
+        start_idx = (i-1)*major
+        stop_idx = (i-1)*major+major
+        col = np.zeros(major)
+        for j in range(1,major+1):
+            col[j-1] = (i-1)*major+j
+        col1[start_idx:stop_idx] = np.random.permutation(col)
 
     #y values of the points
     col2 = np.zeros((major*major))
@@ -117,7 +122,10 @@ def orthogonal_sampling(major):
         for i in range(major):
             col2[i+major*j]=i+1
     for i in range(1,major+1):
-        change = np.random.permutation([(i-1)*major+j for j in range(1,major+1)])
+        col = np.zeros(major)
+        for j in range(1,major+1):
+            col[j-1] = (i-1)*major+j
+        change = np.random.permutation(col)
         for j in range(major):
             col2[i-1+j*major] = change[j]
     for i in range(major*major):
