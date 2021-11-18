@@ -31,10 +31,10 @@ def orthogonal_sampling(major):
     sample_space = np.zeros((major*major,2))
 
     #x values of the points
-    col1 = np.array([])
+    col1 = np.zeros((major, major))
     for i in range(1,major+1):
         for j in range(1,major+1):
-            col1 = np.append(col1,np.random.permutation([(i-1)*major+j])
+            col1[i-1, j-1] = np.random.permutation((i-1)*major+j)
 
     #y values of the points
     col2 = np.zeros((major*major))
