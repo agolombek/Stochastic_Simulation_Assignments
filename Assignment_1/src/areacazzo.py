@@ -12,11 +12,9 @@ from mandelbrot_functions import *
 
 ########################## CALLING AREA FUNCTION #############################
 start_time = time() 
-# using the sqrt because we need to use that for the orthogonal sampling
-
 x_values = np.logspace(2, 5, 3)
-sample_range_sqrt = [100,200,300,400]
-sample_range = [100**2,200**2,300**2,400**2]
+sample_range_sqrt = [100,200,300,400,500,700,1000,1500]
+sample_range = [100**2,200**2,300**2,400**2,500**2,700**2,1000**2,1500**2]
 ortho = sampling(sample_range_sqrt,orthogonal_sampling)
 latin = sampling(sample_range,latin_hypercube_sampling)
 random = sampling(sample_range,random_sampling)
@@ -41,9 +39,9 @@ ax.xaxis.set_major_locator(MaxNLocator(5))
 ax.yaxis.set_major_locator(MaxNLocator(6))
 ax.zaxis.set_major_locator(MaxNLocator(5))
 ax.tick_params(labelsize=16)
-ax.set_xlabel(r'$Iterations$ ', fontsize=20, rotation=150)
-ax.set_ylabel(r'$Samples$', fontsize=20)
-ax.set_zlabel(r'$|A_{i,s} - A_M|$', fontsize=20, rotation=60)
+ax.set_xlabel(r'$log_{10}(Iterations)$ ', fontsize=14, rotation=150)
+ax.set_ylabel(r'$log_{10}(Samples)$', fontsize=14)
+ax.set_zlabel(r'$|A_{i,s} - A_M|$', fontsize=14, rotation=60)
 plt.show()
     
     
