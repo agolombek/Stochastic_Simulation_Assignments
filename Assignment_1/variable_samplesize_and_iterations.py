@@ -22,7 +22,7 @@ start_time = time()
 x_values = np.logspace(2.5, 4, 20)
 y_values = np.logspace(4, 6.5, 20)
         
-answer = Mandelbrot_Area(x_values, y_values, 1e-3, latin_hypercube_sampling)
+answer = Mandelbrot_Area(x_values, y_values, 1e-3, random_sampling)
 
 iterations = answer[:,0]
 samples = answer[:,1]
@@ -47,5 +47,5 @@ ax.set_xlabel(r'$Iterations$ ', fontsize=20, rotation=150)
 ax.set_ylabel(r'$Samples$', fontsize=20)
 ax.set_zlabel(r'$|A_{i,s} - A_M|$', fontsize=20, rotation=60)
 plt.show()
-fig.savefig("latin")
+fig.savefig("random")
 
