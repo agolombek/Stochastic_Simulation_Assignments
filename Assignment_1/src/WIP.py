@@ -137,15 +137,3 @@ def orthogonal_sampling_numba(major):
         sample_space[i,1] = ((np.random.random()+col2[i]-1)/major**2)*2.5-1.25
 
     return sample_space
-
-major = 3
-
-col1, col2, samp = orthogonal_sampling_numba2(major)
-print(col1, col2)
-
-
-
-# time3 = time()
-# orthogonal_sampling_numba(major)
-# time4 = time()
-# print(time4-time3)
