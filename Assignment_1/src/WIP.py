@@ -138,17 +138,20 @@ def orthogonal_sampling_numba(major):
 
     return sample_space
 
-major = 10000
+# major = 10000
 
-time3 = time()
-orthogonal_sampling_numba(major)
-time4 = time()
-print(time4-time3)
+# time3 = time()
+# orthogonal_sampling_numba(major)
+# time4 = time()
+# print(time4-time3)
 
-time5 = time()
-orthogonal_sampling_numba2(major)
-time6 = time()
-print(time6-time5)
+for sample_size_sqrt in [10,100,300,10000]:
+    print(orthogonal_sampling_numba2(int(sample_size_sqrt)))
+
+# time5 = time()
+# orthogonal_sampling_numba2(major)
+# time6 = time()
+# print(time6-time5)
 
 
 # time3 = time()

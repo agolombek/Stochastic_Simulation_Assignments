@@ -104,16 +104,17 @@ def orthogonal_sampling(major):
     """
     #initialising the final array
     sample_space = np.zeros((major*major,2))
-
     #x values of the points
     col1 = np.zeros((major*major))
+    col = np.zeros(major)
     for i in range(1,major+1):
         start_idx = (i-1)*major
         stop_idx = (i-1)*major+major
-        col = np.zeros(major)
+        col[0:major] = 0
         for j in range(1,major+1):
             col[j-1] = (i-1)*major+j
         col1[start_idx:stop_idx] = np.random.permutation(col)
+
 
     #y values of the points
     col2 = np.zeros((major*major))
@@ -122,7 +123,7 @@ def orthogonal_sampling(major):
         for i in range(major):
             col2[i+major*j]=i+1
     for i in range(1,major+1):
-        col = np.zeros(major)
+        col[0:major] = 0
         for j in range(1,major+1):
             col[j-1] = (i-1)*major+j
         change = np.random.permutation(col)
@@ -136,6 +137,14 @@ def orthogonal_sampling(major):
 
 
 ################# ITERATIVE MANDELBROT AREA FUNCTION #########################
+
+def sampling(sample_size,sampling_function):
+    sampling = []
+    for size in sample_size:
+        sampling.append(sampling_function(size))
+    return np.array(sampling,dtype=object)
+
+
 
 @njit
 def Mandelbrot_Area(x_values, y_values, max_std, sampling_function):
@@ -175,9 +184,9 @@ def Mandelbrot_Area(x_values, y_values, max_std, sampling_function):
     for x in x_values:
         # iterate through all sample sizes
         for samp in y_values:
+            # test all the points in the sample x times for convergence
             # generating the sample using the sampling function
             sample = sampling_function(int(samp))
-            # test all the points in the sample x times for convergence
             points = mandelbrot(sample, int(x), int(samp))
             # returns array of 0s and 1s. 1 represents the point being in the 
             # mandelbrot set, while 0 represents divergence. 
@@ -216,9 +225,20 @@ def Mandelbrot_Area(x_values, y_values, max_std, sampling_function):
     
     return answer
 
+# start_time = time() 
+# x_values = np.logspace(2, 5, 3) 
+# sample_range_sqrt = [100,200,300,400,500,1000]
+# sample_range = [100,200,300]
+# ortho = sampling(sample_range_sqrt,orthogonal_sampling)
+# latin = sampling(sample_range,latin_hypercube_sampling)
+# random = sampling(sample_range,random_sampling)
+        
+# answer = Mandelbrot_Area(x_values, [100,200,300], 1e-3,random_sampling)
+# print(answer)
+
 
 @njit
-def Mandelbrot_constant_samplesize(x_values, sample_size, max_std, sampling_function):
+def Mandelbrot_constant_samplesize(x_values, sample, max_std):
     """
     This functions estimates the area of the mandelbrot set for a range of 
     iterations given a certain sample size a ceratin sampling function.
@@ -250,11 +270,8 @@ def Mandelbrot_constant_samplesize(x_values, sample_size, max_std, sampling_func
     # iterate through the number of iterations each point in sample is checked
     # for convergence
     for x in x_values:
-        
-        # generating the sample using the sampling function
-        sample = sampling_function(int(sample_size))
         # test all the points in the sample x times for convergence
-        points = mandelbrot(sample, int(x), int(sample_size))
+        points = mandelbrot(sample, int(x), int(sample.size/2))
         # returns array of 0s and 1s. 1 represents the point being in the 
         # mandelbrot set, while 0 represents divergence. 
         # Area estimate is thus given by sum of this array multiplied by 
@@ -271,10 +288,10 @@ def Mandelbrot_constant_samplesize(x_values, sample_size, max_std, sampling_func
             
             #preform bootstrapping
             counter = 0
-            for i in range(int(sample_size)):
+            for i in range(int(sample.size/2)):
                 counter += np.random.choice(points)
                 
-            area_bootstrapping = (2.75*2.5)*counter/sample_size
+            area_bootstrapping = (2.75*2.5)*counter/(sample.size/2)
             # Update Area and standrad deviation
             l += 1
             S = ((l-2)/(l-1))*S+(area_bootstrapping-A)**2/l
@@ -288,7 +305,6 @@ def Mandelbrot_constant_samplesize(x_values, sample_size, max_std, sampling_func
         grid_point += 1
     
     return answer
-
 
 
 

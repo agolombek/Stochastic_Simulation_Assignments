@@ -18,11 +18,15 @@ from mandelbrot_functions import *
 
 ########################## CALLING AREA FUNCTION #############################
 
-start_time = time()  
-x_values = np.logspace(2.5, 4, 20)
-y_values = np.logspace(4, 6.5, 20)
+start_time = time() 
+x_values = np.logspace(2, 5, 3) 
+sample_range_sqrt = [100,200,300,400,500,1000]
+sample_range = [100,200,300]
+ortho = sampling(sample_range_sqrt,orthogonal_sampling)
+latin = sampling(sample_range,latin_hypercube_sampling)
+random = sampling(sample_range,random_sampling)
         
-answer = Mandelbrot_Area(x_values, y_values, 1e-3, random_sampling)
+answer = Mandelbrot_Area(x_values, x_values, 1e-3,random_sampling)
 
 iterations = answer[:,0]
 samples = answer[:,1]
