@@ -282,8 +282,6 @@ def Mandelbrot_constant_samplesize(x_values, sample_size, max_std, sampling_func
             n += 1
             std = 1.96*np.sqrt(S/(n))
 
-        # Save location on grid, Area estimate and necessray bootstrapping
-        # iterations in answer matrix
         answer[grid_point,0] = int(x)
         answer[grid_point,1] = A
         answer[grid_point,2] = l

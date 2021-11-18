@@ -24,7 +24,7 @@ x_values = np.logspace(2, 5, 20)
 
 for sample_size_sqrt in sample_range_sqrt:
 
-    sample_size = sample_size_sqrt ** 2 
+    sample_size = int(sample_size_sqrt ** 2) 
     print(sample_size, sample_size_sqrt)
     fig, ax = plt.subplots()
     
@@ -47,11 +47,11 @@ for sample_size_sqrt in sample_range_sqrt:
 
     #################### Orthogonal sampling ##################################
 
-    # answer = Mandelbrot_constant_samplesize(x_values, sample_size_sqrt, 1e-3, orthogonal_sampling)
-    # iterations = answer[:,0]
-    # area = answer[:,1]
-    # error = area - 1.506484193
-    # ax.plot(iterations, error, label='Orthogonal sampling')
+    answer = Mandelbrot_constant_samplesize(x_values, int(sample_size_sqrt), 1e-3, orthogonal_sampling)
+    iterations = answer[:,0]
+    area = answer[:,1]
+    error = abs(area - 1.506484193)
+    ax.plot(iterations, error, label='Orthogonal sampling')
 
     # Finish Plot
     ax.grid(axis='both')
