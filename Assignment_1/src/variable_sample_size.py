@@ -27,7 +27,8 @@ BOOTSTRAP_ITERATIONS = answer[:,3]
 real_area =  1.506484193
 ERROR = np.absolute(AREAS - real_area)
 
-end_time = time()       
+end_time = time()
+     
 print('The runtime was', (end_time-start_time)/(60*60), 'hours')  
 
 ############################## PLOTTING #####################################
