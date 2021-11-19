@@ -21,7 +21,7 @@ start_time = time()
 
 all_iterations = np.logspace(2, 4, 30)
 sqrt_sample_size = 100
-max_std = 1e-4
+max_std = 1e-3
 
 answer = real_value_convergence(all_iterations, sqrt_sample_size, max_std)
 
