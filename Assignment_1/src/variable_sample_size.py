@@ -12,8 +12,8 @@ from mandelbrot_functions import *
 
 start_time = time() 
 
-all_iterations = np.logspace(2, 3, 5)
-all_sqrt_sample_sizes = np.logspace(1, 2, 5)
+all_iterations = np.logspace(2, 5, 20)
+all_sqrt_sample_sizes = np.logspace(2, 3.5, 20)
 max_std = 1e-3
 method = orthogonal_sampling
 
@@ -27,9 +27,10 @@ BOOTSTRAP_ITERATIONS = answer[:,3]
 real_area =  1.506484193
 ERROR = np.absolute(AREAS - real_area)
 
-end_time = time()
-     
-print('The runtime was', (end_time-start_time)/(60*60), 'hours')  
+
+end_time = time()       
+print('The runtime was', (end_time-start_time)/(60*60), 'hours') 
+print(AREAS[-1]) 
 
 ############################## PLOTTING #####################################
      
