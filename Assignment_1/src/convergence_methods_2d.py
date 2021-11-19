@@ -21,8 +21,8 @@ start_time = time()
 # using the sqrt because we need to use that for the orthogonal sampling
 
 x_values = np.logspace(2, 5, 20)
-sample_range_sqrt = [300,400]
-sample_range = [300**2,400**2]
+sample_range_sqrt = [200,100]
+sample_range = [200**2,100**2]
 ortho = sampling(sample_range_sqrt,orthogonal_sampling)
 latin = sampling(sample_range,latin_hypercube_sampling)
 random = sampling(sample_range,random_sampling)
