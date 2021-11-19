@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Nov 17 14:14:26 2021
-
-@author: arong
-"""
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -37,7 +31,7 @@ for i in range(len(sample_range)):
     answer = Mandelbrot_constant_samplesize(x_values, random[i], 1e-3)
     iterations = answer[:,0]
     area = answer[:,1] 
-    error = abs(area-area[-1])
+    error = abs(area-1.506484)
     ax.plot(iterations, error, label='Random sampling') 
     
     # #################### Hypercube sampling ##################################
@@ -45,7 +39,7 @@ for i in range(len(sample_range)):
     answer = Mandelbrot_constant_samplesize(x_values, latin[i], 1e-3)
     iterations = answer[:,0]
     area = answer[:,1]
-    error = abs(area-area[-1])
+    error = abs(area-1.506484)
     ax.plot(iterations, error, label='Hypercube sampling')
 
     #################### Orthogonal sampling ##################################
@@ -53,7 +47,7 @@ for i in range(len(sample_range)):
     answer = Mandelbrot_constant_samplesize(x_values, ortho[i], 1e-3)
     iterations = answer[:,0]
     area = answer[:,1]
-    error = abs(area-area[-1])
+    error = abs(area-1.506484)
     ax.plot(iterations, error, label='Orthogonal sampling')
 
     # # Finish Plot
