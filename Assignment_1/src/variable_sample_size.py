@@ -12,9 +12,9 @@ from mandelbrot_functions import *
 
 ########################## CALLING AREA FUNCTION #############################
 start_time = time() 
-x_values = np.logspace(2, 5, 3)
-sample_range_sqrt = [100,200,300,400,500,700,1000,1500]
-sample_range = [100**2,200**2,300**2,400**2,500**2,700**2,1000**2,1500**2]
+x_values = np.logspace(2, 5, 15)
+sample_range_sqrt = [100,200,300,400,500,700,1000,1200]
+sample_range = [100**2,200**2,300**2,400**2,500**2,700**2,1000**2,1200**2]
 ortho = sampling(sample_range_sqrt,orthogonal_sampling)
 latin = sampling(sample_range,latin_hypercube_sampling)
 random = sampling(sample_range,random_sampling)
