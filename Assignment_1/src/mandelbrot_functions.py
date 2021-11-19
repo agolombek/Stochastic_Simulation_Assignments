@@ -165,7 +165,7 @@ def Mandelbrot_Area(iterations, sample, max_std):
 
     return A, n
 
-########################## ITERATING FUNCTION ################################
+########################## ITERATIVE FUNCTIONS ###############################
 
 @njit
 def iteration_function(all_iterations, all_sqrt_sample_sizes, max_std, method):
