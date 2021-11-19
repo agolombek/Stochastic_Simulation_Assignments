@@ -15,7 +15,7 @@ start_time = time()
 all_iterations = np.logspace(2, 5, 20)
 all_sqrt_sample_sizes = np.logspace(2, 3.5, 20)
 max_std = 1e-3
-method = orthogonal_sampling
+method = latin_hypercube_sampling
 
 answer = iteration_function(all_iterations, all_sqrt_sample_sizes, max_std, method)
 
