@@ -55,16 +55,17 @@ def mandelbrot(points, iterations, size):
 ######################### SAMPLING METHODS ###################################
 
 @njit
-def random_sampling(samp_size):
+def random_sampling(samp_size_sqrt):
     """
     This function provides sample points for half open interval 
     x = [-.075, 2), y = [-1.25, 1.25) using the random sampling method.
     --------------------------------------------------------------------------
-    The function argument is the number of points to be sampled.
+    The function argument is the root of number of points to be sampled.
     --------------------------------------------------------------------------
     The function returns a n by 2 matrix with n being the number of points 
     to be tested, containing the x and y values in colum 1 and 2 respectively.  
     """
+    samp_size = int(samp_size_sqrt**2)
     sample_space = np.zeros((samp_size, 2))
     for i in range(samp_size):
         sample_space[i, 0] = np.random.uniform(-2,0.75)
@@ -72,17 +73,18 @@ def random_sampling(samp_size):
     return sample_space
 
 @njit
-def latin_hypercube_sampling(samp_size):
+def latin_hypercube_sampling(samp_size_sqrt):
     """
     This function provides sample points for half open interval 
     x = [-.075, 2), y = [-1.25, 1.25) using the latin hypercube sampling 
     method.
     --------------------------------------------------------------------------
-    The function argument is the number of points to be sampled.
+    The function argument is the root of number of points to be sampled.
     --------------------------------------------------------------------------
     The function returns a n by 2 matrix with n being the number of points 
     to be tested, containing the x and y values in colum 1 and 2 respectively.  
     """
+    samp_size = int(samp_size_sqrt**2)
     sample_space = np.zeros((samp_size, 2))
     perm1 = np.random.permutation(samp_size)
     perm2 = np.random.permutation(samp_size)
@@ -136,85 +138,53 @@ def orthogonal_sampling(major):
     return sample_space
 
 
-################# ITERATIVE MANDELBROT AREA FUNCTION #########################
-
-def sampling(sample_size,sampling_function):
-    sampling = []
-    for size in sample_size:
-        sampling.append(np.array(sampling_function(size)))
-    return np.array(sampling,dtype=object)
-
-
-
+##################### MANDELBROT AREA FUNCTION ##############################
 
 @njit
-def Mandelbrot_constant_samplesize(x_values, sample, max_std):
-    """
-    This functions estimates the area of the mandelbrot set for a range of 
-    iterations given a certain sample size a ceratin sampling function.
-    --------------------------------------------------------------------------
-    The argument x_values is an array containing all the numbers of iterations 
-    each point in the sample space is tested for divergence.
-    
-    The argument ysample_size represents the number of samples drawn from the
-    sample space.
-    
-    max_std represents the maximum standrad deviation allowed for each point 
-    in the grid. It thus represents the level of confidence in the result for
-    each point in the grid.
-    
-    The sampling_function argument needs to be a function which return the 
-    sample space in the form of n by 2 matrix with n points containing the x
-    and y coordinate of each point.
-    --------------------------------------------------------------------------
-    The function returns the matrix answer with 3 columns. The first contains 
-    the number of iterations each point in the sample was chekced for 
-    divergence. The second column contains the area estimnate. The third
-    column contains the number of iterations of the bootstrap method which
-    were preformed to lower the standard deviation below max_std.
-    """
-    # create a matrix with space for all grid_points and 4 columns
-    answer = np.zeros((x_values.size, 3))
-    # grid_point keeps track of the solution currently being investigated
-    grid_point = 0
-    # iterate through the number of iterations each point in sample is checked
-    # for convergence
-    for x in x_values:
-        # test all the points in the sample x times for convergence
-        points = mandelbrot(sample, int(x), int(sample.size/2))
-        # returns array of 0s and 1s. 1 represents the point being in the 
-        # mandelbrot set, while 0 represents divergence. 
-        # Area estimate is thus given by sum of this array multiplied by 
-        # the area the sample was taken from.
-        A = np.mean(points)*(2.75*2.5)
-        # Initialize values for bootstrapping method
-        S = 0
-        n = 0
-        std = 1
-        l = 1
-        # preform bootstrapping method at least 100 times and until the 
-        # standard deviation is lower than max_std.
-        while std > max_std or l < 100:
-            
-            #preform bootstrapping
-            counter = 0
-            for i in range(int(sample.size/2)):
-                counter += np.random.choice(points)
-                
-            area_bootstrapping = (2.75*2.5)*counter/(sample.size/2)
-            # Update Area and standrad deviation
-            l += 1
-            S = ((l-2)/(l-1))*S+(area_bootstrapping-A)**2/l
-            A = (area_bootstrapping+(l-1)*A)/l
-            n += 1
-            std = 1.96*np.sqrt(S/(n))
+def Mandelbrot_Area(iterations, sample, max_std):
 
-        answer[grid_point,0] = int(x)
-        answer[grid_point,1] = A
-        answer[grid_point,2] = l
-        grid_point += 1
+    points = mandelbrot(sample, iterations, int(sample.size/2))
+    A = np.mean(points)*(2.75*2.5)
+    S = 0
+    n = 0
+    std = 1
+    l = 1
     
+    while std > max_std or l < 100:
+        #preform bootstrapping
+        counter = 0
+        for i in range(int(sample.size/2)):
+            counter += np.random.choice(points)
+        area_bootstrapping = (2.75*2.5)*counter/(sample.size/2)
+        # Update Area and standrad deviation
+        l += 1
+        S = ((l-2)/(l-1))*S+(area_bootstrapping-A)**2/l
+        A = (area_bootstrapping+(l-1)*A)/l
+        n += 1
+        std = 1.96*np.sqrt(S/(n))
+
+    return A, n
+
+########################## ITERATING FUNCTION ################################
+
+@njit
+def iteration_function(all_iterations, all_sqrt_sample_sizes, max_std, method):
+    answer = np.zeros((all_iterations.size*all_sqrt_sample_sizes.size, 4))
+    grid_point = 0
+    for iteration in all_iterations:
+        for sqrt_sample_size in all_sqrt_sample_sizes:
+            sample_size = int(sqrt_sample_size**2)
+            sample = method(int(sqrt_sample_size))
+            # calculate area estimate 
+            Area, bootstrap_itr = Mandelbrot_Area(int(iteration), sample, max_std)
+            answer[grid_point,0] = Area
+            answer[grid_point,1] = iteration
+            answer[grid_point,2] = sample_size
+            answer[grid_point,3] = bootstrap_itr
+            grid_point += 1
     return answer
+
+
 
 
 
