@@ -15,7 +15,8 @@ start_time = time()
 all_iterations = np.logspace(2, 5, 20)
 all_sqrt_sample_sizes = np.logspace(2, 3.5, 20)
 max_std = 1e-3
-method = random_sampling
+
+method = latin_hypercube_sampling
 
 answer = iteration_function(all_iterations, all_sqrt_sample_sizes, max_std, method)
 
@@ -27,9 +28,11 @@ BOOTSTRAP_ITERATIONS = answer[:,3]
 real_area =  1.506484193
 ERROR = np.absolute(AREAS - real_area)
 
+
 end_time = time()       
 print('The runtime was', (end_time-start_time)/(60*60), 'hours') 
 print(AREAS[-1]) 
+
 ############################## PLOTTING #####################################
      
 fig = plt.figure()
