@@ -16,20 +16,20 @@ from matplotlib.ticker import MaxNLocator
 from matplotlib import cm
 from mandelbrot_functions import *
 
-
 start_time = time() 
 
 all_iterations = np.logspace(2, 5, 30)
-sqrt_sample_size = 3500
+sqrt_sample_size = 500
 max_std = 1e-3
 
-answer = function_convergence(all_iterations, sqrt_sample_size, max_std)
-# answer = real_value_convergence(all_iterations, sqrt_sample_size, max_std)
+# answer = function_convergence(all_iterations, sqrt_sample_size, max_std)
+answer = real_value_convergence_test(all_iterations, sqrt_sample_size, max_std)
 
 ITERATIONS= answer[:,0]
 ERROR_RANDOM= answer[:,1]
 ERROR_HYPERCUBE = answer[:,2]
 ERROR_ORTHO = answer[:,3]
+ERROR_OPTIM = answer[:,4]
 
 end_time = time()       
 print('The runtime was', (end_time-start_time)/(60*60), 'hours')  
@@ -44,6 +44,7 @@ title = str(int(sqrt_sample_size**2)) + ' Samples'
 ax.plot(ITERATIONS, ERROR_RANDOM, label='Random sampling') 
 ax.plot(ITERATIONS, ERROR_HYPERCUBE, label='Hypercube sampling')
 ax.plot(ITERATIONS, ERROR_ORTHO, label='Orthogonal sampling')
+ax.plot(ITERATIONS, ERROR_OPTIM, label='Optimized Montecarlo')
 
 # # Finish Plot
 ax.grid(axis='both')
@@ -53,6 +54,7 @@ ax.set_ylabel('Error')
 ax.legend()
 ax.set_title(title)
 plt.show()
+
 
     
     
