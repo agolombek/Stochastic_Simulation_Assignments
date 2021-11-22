@@ -369,4 +369,17 @@ def real_value_convergence_test(all_iterations, sqrt_sample_size, max_std):
 
     return answer
 
+random_sample = random_sampling(int(10**(3.5)))
+latin = latin_hypercube_sampling(int(10**(3.5)))
+ortho = orthogonal_sampling(int(10**(3.5)))
+ortho2 = orthogonal_sampling_01(int(10**(3.5)))
 
+res_random, it_random = Mandelbrot_Area(100000,random_sample,1e-3)
+res_latin, it_latin = Mandelbrot_Area(100000,latin,1e-3)
+res_ortho, it_ortho = Mandelbrot_Area(100000,ortho,1e-3)
+res_opt, it_opt = Mandelbrot_Area_really_improved(100000,ortho2,1e-3)
+
+print("random: ",res_random, it_random)
+print("latin: ",res_latin, it_latin)
+print("ortho: ",res_ortho, it_ortho)
+print("opt: ",res_opt, it_opt)

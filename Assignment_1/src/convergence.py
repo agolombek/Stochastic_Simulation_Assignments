@@ -19,11 +19,11 @@ from mandelbrot_functions import *
 start_time = time() 
 
 all_iterations = np.logspace(2, 5, 30)
-sqrt_sample_size = 1000
+sqrt_sample_size = 400
 max_std = 1e-3
 
-#answer = function_convergence(all_iterations, sqrt_sample_size, max_std)
-answer = real_value_convergence_test(all_iterations, sqrt_sample_size, max_std)
+answer = function_convergence(all_iterations, sqrt_sample_size, max_std)
+#answer = real_value_convergence_test(all_iterations, sqrt_sample_size, max_std)
 
 
 ITERATIONS= answer[:,0]
