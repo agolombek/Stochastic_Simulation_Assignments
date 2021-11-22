@@ -369,17 +369,32 @@ def real_value_convergence_test(all_iterations, sqrt_sample_size, max_std):
 
     return answer
 
-random_sample = random_sampling(int(10**(2)))
-latin = latin_hypercube_sampling(int(10**(2)))
-ortho = orthogonal_sampling(int(10**(2)))
-ortho2 = orthogonal_sampling_01(int(10**(2)))
 
-res_random, it_random = Mandelbrot_Area(1000,random_sample,1e-3)
-res_latin, it_latin = Mandelbrot_Area(1000,latin,1e-3)
-res_ortho, it_ortho = Mandelbrot_Area(1000,ortho,1e-3)
-res_opt, it_opt = Mandelbrot_Area_really_improved(1000,ortho2,1e-3)
-
+start_time = time()
+random_sample = random_sampling(int(10**(3)))
+res_random, it_random = Mandelbrot_Area(100000,random_sample,1e-3)
 print("random: ",res_random, it_random)
+end_time = time()       
+print('The runtime was', (end_time-start_time)/(60*60), 'hours') 
+
+
+start_time = time()
+latin = latin_hypercube_sampling(int(10**(3)))
+res_latin, it_latin = Mandelbrot_Area(100000,latin,1e-3)
 print("latin: ",res_latin, it_latin)
+end_time = time()       
+print('The runtime was', (end_time-start_time)/(60*60), 'hours') 
+
+start_time = time()
+ortho = orthogonal_sampling(int(10**(3)))
+res_ortho, it_ortho = Mandelbrot_Area(100000,ortho,1e-3)
 print("ortho: ",res_ortho, it_ortho)
+end_time = time()       
+print('The runtime was', (end_time-start_time)/(60*60), 'hours') 
+
+start_time = time()
+ortho2 = orthogonal_sampling_01(int(10**(3)))
+res_opt, it_opt = Mandelbrot_Area_really_improved(100000,ortho2,1e-3)
 print("opt: ",res_opt, it_opt)
+end_time = time()       
+print('The runtime was', (end_time-start_time)/(60*60), 'hours') 
