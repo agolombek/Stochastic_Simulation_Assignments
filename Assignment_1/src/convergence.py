@@ -19,7 +19,7 @@ from mandelbrot_functions import *
 start_time = time() 
 
 all_iterations = np.logspace(2, 5, 30)
-sqrt_sample_size = 500
+sqrt_sample_size = 1000
 max_std = 1e-3
 
 #answer = function_convergence(all_iterations, sqrt_sample_size, max_std)
