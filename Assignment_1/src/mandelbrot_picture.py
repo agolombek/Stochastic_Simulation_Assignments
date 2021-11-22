@@ -48,8 +48,11 @@ def mandelbrot_plot(division,iterations,re_axis,im_axis,name):
 """
 Uncomment the code below to show the fractals
 """
+start_time = time() 
 
-# mandelbrot_plot(5000,1000,[-2,0.75],[-1.25,1.25],"full_fractal")
+mandelbrot_plot(15000,1000,[-2,0.75],[-1.25,1.25],"full_fractal_high_res")
 # mandelbrot_plot(5000,1000,[-0.57,-0.4],[-0.5,-0.625],"zoom1")
 
-    
+
+end_time = time()       
+print('The runtime was', (end_time-start_time)/(60*60), 'hours') 
