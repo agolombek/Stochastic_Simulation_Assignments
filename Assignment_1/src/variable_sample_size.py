@@ -9,6 +9,12 @@ from matplotlib.ticker import MaxNLocator
 from matplotlib import cm
 from mandelbrot_functions import *
 
+"""
+in this file there is the code used to make the 3d plot. In order to
+change the sampling method, the variable "method" can be changed to one od the different
+techniques
+
+"""
 
 start_time = time() 
 

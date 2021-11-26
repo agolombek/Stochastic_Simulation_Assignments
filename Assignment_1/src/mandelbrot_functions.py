@@ -15,6 +15,7 @@ from matplotlib.ticker import LinearLocator, FormatStrFormatter
 from matplotlib.ticker import MaxNLocator
 from matplotlib import cm
 
+
 ######################### MANDELBROT ITERATIONS ##############################
 
 @njit
@@ -53,12 +54,11 @@ def mandelbrot(points, iterations, size):
     return answer
 
 
-
 @njit
 def optimized_mandelbrot2(points,iterations, c = 1):
 
     # the new variable will be X - c * (Y - u_Y) where Y is 1 if the point is inside the semicircle
-    # centered in -0.25 and with radius 0.5, 0 otherwise. The expected value will be pi*0.5**2/2
+    # centered in -0.25 and with radius 0.5, 0 otherwise. The expected value will be pi*0.5**3
 
     answer = np.zeros(int(points.size/2))
     answer2 = np.zeros(int(points.size/2))
@@ -68,10 +68,11 @@ def optimized_mandelbrot2(points,iterations, c = 1):
 
         z = 0
         n = 0
-        # # Checking if the point is inside a circle centered in (-0.25,0) and with radious 0.5
-        # if ((c[0]*2.75-2)+0.25)**2+(c[1]*1.25)**2 <= 0.025:
 
-        #     answer2[i] = 1
+        # Checking if the point is inside a circle centered in (-0.25,0) and with radious 0.5
+        if ((c[0]*2.75-2)+0.25)**2+(c[1]*1.25)**2 <= 0.025:
+
+            answer2[i] = 1
 
 
         while abs(z) <= 2 and n < iterations:
@@ -177,7 +178,7 @@ def orthogonal_sampling(major):
 def orthogonal_sampling_01(major):
     """
     This function provides sample points for half open interval 
-    x = [-.075, 2), y = [-1.25, 1.25) using orthogonal sampling.
+    x = [0, 1), y = [0, 1) using orthogonal sampling.
     --------------------------------------------------------------------------
     The function argument is the square root of number of points to be sampled.
     --------------------------------------------------------------------------
@@ -247,6 +248,13 @@ def Mandelbrot_Area(iterations, sample, max_std):
 @njit
 def Mandelbrot_Area_really_improved(iterations, sample, max_std):
 
+    """
+    this function compute the area of the mandelbrot set using control variates. 
+    it takes a sample, the number of iterations for each point and a value for the
+    standard deviation to achieve. Then evaluates recursively the average and the sample
+    variance using the bootstrap method.
+    """
+
     points, points_circle = optimized_mandelbrot2(sample, iterations, int(sample.size/2))
     A = np.mean(points)*(2.75*1.25)
     C = np.mean(points_circle)*(2.75*1.25)
@@ -301,6 +309,12 @@ def iteration_function(all_iterations, all_sqrt_sample_sizes, max_std, method):
 
 @njit
 def function_convergence(all_iterations, sqrt_sample_size, max_std):
+
+    """
+    function to study the convergence to a optimal value (i.e. the last value computed using
+    this function (for the higher I and S))
+    """
+
     answer = np.zeros((all_iterations.size, 9))
     grid_point = 0
     for iteration in all_iterations:
@@ -336,6 +350,10 @@ def function_convergence(all_iterations, sqrt_sample_size, max_std):
 
 @njit
 def real_value_convergence_test(all_iterations, sqrt_sample_size, max_std):
+
+    """
+    function to study the convergence to a reference value of the area of the mandelbrot set
+    """
     answer = np.zeros((all_iterations.size, 9))
     grid_point = 0
     for iteration in all_iterations:
@@ -370,31 +388,3 @@ def real_value_convergence_test(all_iterations, sqrt_sample_size, max_std):
     return answer
 
 
-start_time = time()
-random_sample = random_sampling(int(300))
-res_random, it_random = Mandelbrot_Area(100000,random_sample,1e-3)
-print("random: ",res_random, it_random)
-end_time = time()       
-print('The runtime was', (end_time-start_time)/(60*60), 'hours') 
-
-
-start_time = time()
-latin = latin_hypercube_sampling(int(300))
-res_latin, it_latin = Mandelbrot_Area(100000,latin,1e-3)
-print("latin: ",res_latin, it_latin)
-end_time = time()       
-print('The runtime was', (end_time-start_time)/(60*60), 'hours') 
-
-start_time = time()
-ortho = orthogonal_sampling(int(300))
-res_ortho, it_ortho = Mandelbrot_Area(100000,ortho,1e-3)
-print("ortho: ",res_ortho, it_ortho)
-end_time = time()       
-print('The runtime was', (end_time-start_time)/(60*60), 'hours') 
-
-start_time = time()
-ortho2 = orthogonal_sampling_01(int(300))
-res_opt, it_opt = Mandelbrot_Area_really_improved(100000,ortho2,1e-3)
-print("opt: ",res_opt, it_opt)
-end_time = time()       
-print('The runtime was', (end_time-start_time)/(60*60), 'hours') 

@@ -16,6 +16,13 @@ from matplotlib.ticker import MaxNLocator
 from matplotlib import cm
 from mandelbrot_functions import *
 
+
+
+"""
+We used this file to make the 2d plots, for both the convergence
+to the reference value of the mandelbrot set and to the optimal value. 
+
+"""
 start_time = time() 
 
 all_iterations = np.logspace(2, 5, 30)
@@ -63,6 +70,7 @@ ax.set_title(title)
 plt.show()
 
 
+# Plot for the number of bootstrap iterations vs the number of iterations for each point
 fig, ax = plt.subplots()
 title = str(int(sqrt_sample_size**2)) + ' Samples'
 ax.plot(ITERATIONS, bootstrap_itr1, label='Random sampling') 
