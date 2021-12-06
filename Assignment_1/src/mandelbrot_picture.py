@@ -5,6 +5,12 @@ from PIL import Image, ImageDraw
 from math import log, log2
 from time import time
 
+
+"""
+in this file there are the function uset to make the pictures of the fractal
+
+"""
+
 def mandelbrot(c,iterations):
     z = 0
     n = 0
