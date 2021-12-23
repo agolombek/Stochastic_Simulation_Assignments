@@ -1,0 +1,103 @@
+
+all experiments: 
+
+  1) normal cooling schedule but different mutation for a280
+     a) 2opt (this is the simple run, don't do this again)
+     b) swapping
+     c) replacement
+     d) adaptive mutation
+  2) changing cooling schedule but same mutation (pick the best)
+  3) simple run with eil51
+  4) simple run with a208
+  5) simple run with pcb442
+
+
+results:
+
+  - a280 N = 1000, cooling schedule 1, mutation: 2-opt, 40 simulations: 
+  time = 11975.78612780571 seconds
+  best lenght : 2841
+  worst length : 3154
+  real lenght: 2579
+  length = 3007.025 +- 73.30330398419979
+  confidence interval: mean(3007.025), will lie in the interval [2983.28281036167,3030.7671896383304] with a probability of 95%
+
+  - a280 N = 2000, cooling schedule 1, mutation: 2-opt, 40 simulations: 
+  time = 23845.776964187622 seconds
+  best lenght : 2746
+  worst length : 3003
+  real lenght: 2579
+  length = 2863.7 +- 52.959984894257666
+  confidence interval: mean(2863.7), will lie in the interval [2846.546803128088,2880.8531968719117] with a probability of 95%
+
+  - a280 N = 3000, cooling schedule 1, mutation: 2-opt, 40 simlations: 
+  time = 35783.320050001144 seconds
+  best lenght : 2741
+  worst length : 2906
+  real lenght: 2579
+  length = 2817.95 +- 39.95056320003512
+  confidence interval: mean(2817.95), will lie in the interval [2805.0104216167692,2830.8895783832304] with a probability of 95%
+  
+  - a280 N = 4500, cooling schedule 1, mutation: 2-opt, 30 simlations: 
+  time = 44261.00177001953 seconds
+  best lenght : 2687
+  worst length : 2860
+  real lenght: 2579
+  length = 2773.733333333333 +- 36.4187985645997
+  confidence interval: mean(2773.733333333333), will lie in the interval [2759.901852028156,2787.56481463851] with a probability of 95%
+
+  - a280 N = 6000, cooling schedule 1, mutation: 2-opt, 20 simulations:
+  time = 38234.5728430748 seconds
+  best lenght : 2649
+  worst length : 2867
+  real lenght: 2579
+  length = 2757.45 +- 56.00399539318602
+  confidence interval: mean(2757.45), will lie in the interval [2730.558413152223,2784.341586847777] with a probability of 95%
+
+  - a280 N = 2000, cooling schedule 1, mutation: inserting, 40 simulations:  
+  time = 26828.090443611145 s
+  best lenght : 3153
+  worst length : 3756
+  real lenght: 2579
+  length = 3427.95 +- 150.80914262736195
+  confidence interval: mean(3427.95), will lie in the interval [3379.1044627753117,3476.795537224688] with a probability of 95%
+
+  - a280 N = 2000, cooling schedule 1, mutation: swapping, 40 simulations:  
+  29427.715765953064
+  best lenght : 4315
+  worst length : 5243
+  real lenght: 2579
+  length = 4741.9 +- 231.86750526971218
+  confidence interval: mean(4741.9), will lie in the interval [4666.800489038438,4816.999510961561] with a probability of 95%
+
+  - a280 N = 2000, cooling schedule 1, mutation: adaptive, 40 simulations:  
+  26228.32500219345
+  best lenght : 2716
+  worst length : 2893
+  real lenght: 2579
+  length = 2810.375 +- 45.42724265239967
+  confidence interval: mean(2810.375), will lie in the interval [2795.6615812155997,2825.0884187844003] with a probability of 95%
+
+  - a280 N = 4500, cooling schedule 2, mutation: 2opt, 30 simulations:  
+  66887.73652505875
+  best lenght : 2746
+  worst length : 2933
+  real lenght: 2579
+  length = 2842.7 +- 53.58180661381249
+  confidence interval: mean(2842.7), will lie in the interval [2822.350186560603,2863.0498134393965] with a probability of 95%
+
+  - eil51 N = 1000, cooling schedule 1, mutation: adaptive
+  time = 1599.6009781360626 s
+  best lenght : 426
+  worst length : 440
+  real lenght: 426
+  length = 431.53333333333336 +- 4.19311605160437
+  confidence interval: mean(431.53333333333336), will lie in the interval [429.94083142321875,433.12583524344797] with a probability of 95%
+
+  -442 N = 6000, cooling schedule1, mutation: adaptive
+  time = 84714.0922677517 s
+  best lenght : 53257
+  worst length : 55963
+  real lenght: 50778
+  length = 54518.833333333336 +- 598.7774813920628
+  confidence interval: mean(54518.833333333336), will lie in the interval [54291.42386717138,54746.24279949529] with a probability of 95%
